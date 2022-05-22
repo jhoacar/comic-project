@@ -1,4 +1,5 @@
 import DataTypes from "sequelize";
+import { UserSchema } from "..";
 import sequelize from "../../config/mysql/connection";
 
 console.log("Using model user with mysql");
@@ -39,6 +40,21 @@ export default class User {
     const whereQuery: any = objectToFind;
     return await User.Model.findOne({ where: whereQuery });
   };
+
+  public static async customFindAll(): Promise<UserSchema[]> {
+
+    const users = await User.Model.findAll();
+    return users.map((user: any): UserSchema => {
+
+      const name: string = user.name;
+      const email: string = user.email;
+      const password: string = user.password;
+      const avatar: string = user.avatar;
+      const image: string = user.image;
+      return { name, email, password, avatar, image };
+    })
+  }
+
 
   public static async customCreate(objectToCreate: Object) {
     const createQuery: any = objectToCreate;

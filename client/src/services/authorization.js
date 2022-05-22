@@ -9,7 +9,9 @@ export const handleRegister = async function (userObject) {
         return;
 
     try {
-        const payload = { name, email, password, avatar, image }
+        const payload = { name, email, password, avatar, image };
+
+        
 
         const response = await fetch(authUrl + "/register", {
             method: "POST",

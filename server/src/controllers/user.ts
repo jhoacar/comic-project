@@ -35,8 +35,7 @@ export const getAvatars = async (req: Request, res: Response, next: NextFunction
 
         const { User } = await dynamicModels();
 
-        const allUser = await User.customFindOne({});
-
+        const allUser: UserSchema[] = await User.customFindAll({});
         const avatars: string[] = allUser.map((user: UserSchema) => user.avatar);
 
         return res.json({
