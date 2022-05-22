@@ -8,7 +8,8 @@ export default class User {
         name: String,
         email: String,
         password: String,
-        avatar: String
+        avatar: String,
+        image: String
     });
 
     public static Model = model('User', User.schema);

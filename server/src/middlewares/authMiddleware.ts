@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getPayloadData } from "../helpers/handleJWT";
 
-declare namespace Express {
-    export interface Request {
-       user?: Object
-    }
-} 
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
@@ -24,5 +19,4 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     }
 
     return next();
-
 }

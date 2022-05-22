@@ -1,8 +1,9 @@
 import connection from './connection';
-import '../../models';
+import dynamicModels from "../../models";
 
 const initialization = async () => {
   try {
+    await dynamicModels();
     await connection.authenticate();
     console.log('Connection has been established successfully.');
     await connection.sync();

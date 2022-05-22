@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import dynamicModels from "../models";
-
-const { getHashedPassword } = require("../helpers/handlePassword");
-
+import { getHashedPassword } from "../helpers/handlePassword";
+import { UserSchema } from "../models";
 
 export const postUser = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -14,8 +13,6 @@ export const postUser = async (req: Request, res: Response, next: NextFunction) 
 
         const { User } = await dynamicModels();
 
-        console.log(User);
-        
         const user = await User.customCreate(userData);
 
         delete user.password;
@@ -27,7 +24,30 @@ export const postUser = async (req: Request, res: Response, next: NextFunction) 
 
     } catch (error) {
         console.log(error)
-        //res.status(500);
+        res.status(500);
         res.json({ error: error });
     }
 }
+
+export const getAvatars = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+
+        const { User } = await dynamicModels();
+
+        const allUser = await User.customFindOne({});
+
+        const avatars: string[] = allUser.map((user: UserSchema) => user.avatar);
+
+        return res.json({
+            message: "All avatars in the system",
+            body: avatars
+        });
+
+    } catch (error) {
+        console.log(error)
+        res.status(500);
+        res.json({ error: error });
+    }
+}
+

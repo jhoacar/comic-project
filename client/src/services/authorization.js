@@ -11,7 +11,6 @@ export const handleRegister = async function (userObject) {
     try {
         const payload = { name, email, password, avatar, image }
 
-        console.log(authUrl);
         const response = await fetch(authUrl + "/register", {
             method: "POST",
             headers: {
@@ -23,10 +22,12 @@ export const handleRegister = async function (userObject) {
 
         const data = await response.json();
 
-        if (!data.error)
+        console.log(data);
+
+        if (data.error)
             return { error: data.error }
 
-        return { message: data.body }
+        return { body: data.body }
 
     } catch (throwedError) {
         console.log(throwedError);

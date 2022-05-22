@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize/types";
+import DataTypes from "sequelize";
 import sequelize from "../../config/mysql/connection";
 
 console.log("Using model user with mysql");
@@ -21,7 +21,11 @@ export default class User {
     },
     avatar: {
       type: DataTypes.STRING,
+      unique: true
     },
+    image: {
+      type: DataTypes.STRING,
+    }
 
   };
 

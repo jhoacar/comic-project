@@ -7,16 +7,15 @@
     "doc": "docs"
   },
   "scripts": {
-
-    "start": "env-cmd -f client.env npm run build-client && env-cmd -f server.env npm run start-server",
-
+    "start": "npm run production-client && npm run production-server",
+    "production-client": "env-cmd -f client.env npm run build-client",
+    "production-server": "env-cmd -f server.env npm run start-server",
     "start-server": "npm start --prefix server",
-    "dev-server": "env-cmd -f server.env npm run dev --prefix server",
-    "build-server": "npm run build --prefix server",
-    "watch-server": "npm run watch --prefix server",
-
     "start-client": "npm start --prefix client",
-    "build-client": "npm run build --prefix client"
+    "build-server": "npm run build --prefix server",
+    "build-client": "npm run build --prefix client",
+    "dev-server": "env-cmd -f server.env npm run dev --prefix server",
+    "watch-server": "npm run watch --prefix server"
   },
   "keywords": [],
   "author": "",
