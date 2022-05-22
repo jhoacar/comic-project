@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Layout from '../../components/layouts'
 import Card from '../../components/cards';
 import { Form, Image, Button } from 'react-bootstrap';
-import getMainRoute from '../../utils/getMainRoute';
 import { handleLogin } from '../../services/authorization';
 
 function Login() {
@@ -26,7 +25,7 @@ function Login() {
             <Card>
                 <Form onSubmit={handleOnSubmitForm}>
                     <Form.Group className="mb-3 text-center">
-                        <Image src={`${getMainRoute()}/icon.png`} width="100px" height="100px"></Image>
+                        <Image src={`icon.png`} width="100px" height="100px"></Image>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Email address</Form.Label>

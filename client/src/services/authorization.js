@@ -1,9 +1,8 @@
 
-import getMainRoute from "../utils/getMainRoute";
-
-const authUrl = process.env.APP_URL || getMainRoute() + "/auth";
+const authUrl = `${process.env.REACT_APP_SERVER_URL || '/api/v1'}/auth`;
 
 export const handleRegister = async function (userObject) {
+
     const { name, email, password, avatar, image } = userObject;
 
     if (!name || !email || !password || !avatar || !image)
@@ -12,6 +11,7 @@ export const handleRegister = async function (userObject) {
     try {
         const payload = { name, email, password, avatar, image }
 
+        console.log(authUrl);
         const response = await fetch(authUrl + "/register", {
             method: "POST",
             headers: {
@@ -26,9 +26,10 @@ export const handleRegister = async function (userObject) {
         if (!data.error)
             return { error: data.error }
 
-        return { message: data.message }
+        return { message: data.body }
 
     } catch (throwedError) {
+        console.log(throwedError);
         const error = 'Error in Server';
         return { error };
     }

@@ -5,6 +5,8 @@ const router = Router();
 
 const clientFolder = path.resolve(__dirname + '/../../../../client/build');
 
-router.use("/",ShareStatic(clientFolder));
+router.use("/**", ShareStatic(clientFolder, {
+    cacheControl: false
+}));
 
 export default router;

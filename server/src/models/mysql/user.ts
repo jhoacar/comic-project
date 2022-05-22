@@ -1,52 +1,50 @@
-import { BuildOptions, DataTypes, Model, ModelStatic } from "sequelize/types";
+import { DataTypes } from "sequelize/types";
 import sequelize from "../../config/mysql/connection";
-
-const UserSchema = {
-  // Model attributes are defined here
-  name: {
-    type: DataTypes.STRING,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  avatar: {
-    type: DataTypes.STRING,
-  },
-
-};
-
 
 console.log("Using model user with mysql");
 
-const User = sequelize.define('User', UserSchema, { tableName: 'users' });
+export default class User {
 
-const customFindOne = async (objectToFind: Object) => {
+  public static schema = {
+    // Model attributes are defined here
+    name: {
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    avatar: {
+      type: DataTypes.STRING,
+    },
 
-  const whereQuery: any = objectToFind;
-  return await User.findOne({ where: whereQuery });
+  };
+
+  public static Model = sequelize.define('User', User.schema, { tableName: 'users' });
+
+  constructor(ObjectToCreate: Object) {
+    User.customCreate(ObjectToCreate);
+  }
+
+  public static async customFindOne(objectToFind: Object) {
+    const whereQuery: any = objectToFind;
+    return await User.Model.findOne({ where: whereQuery });
+  };
+
+  public static async customCreate(objectToCreate: Object) {
+    const createQuery: any = objectToCreate;
+    return await User.Model.create(createQuery);
+  };
+
+  public static async customUpdate(dataToUpdate: Object, objectToFind: Object) {
+    const whereQuery: any = objectToFind;
+    return await User.Model.update(dataToUpdate, { where: whereQuery });
+  };
+
 };
-
-const customCreate = async (objectToCreate: Object) => {
-  const createQuery: any = objectToCreate;
-  return await User.create(createQuery);
-};
-
-const customUpdate = async (dataToUpdate: Object, objectToFind: Object) => {
-  const whereQuery: any = objectToFind;
-  return await User.update(dataToUpdate, { where: whereQuery });
-};
-
-
-User.prototype.customFindOne = customFindOne;
-User.prototype.customCreate = customCreate;
-User.prototype.customUpdate = customUpdate;
-
-
-export default User;
 

@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Layout from '../../components/layouts';
 import Card from '../../components/cards';
 import { Button, Form, Image } from 'react-bootstrap';
-
-import getMainRoute from '../../utils/getMainRoute';
 import { getAllAvatars } from '../../services/api';
 import { handleRegister } from '../../services/authorization';
 
@@ -66,7 +64,7 @@ function Register() {
             <Card>
                 <Form onSubmit={handleOnSubmitForm}>
                     <Form.Group className="mb-3 text-center">
-                        <Image src={`${getMainRoute()}/icon.png`} width="100px" height="100px"></Image>
+                        <Image src={`icon.png`} width="100px" height="100px"></Image>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>User Name</Form.Label>

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "../models";
+import dynamicModels from "../models";
 
 import { getJsonWebToken } from "../helpers/handleJWT";
 import { comparePassword } from "../helpers/handlePassword";
@@ -9,8 +9,8 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
     try {
         const { email, password } = req.body;
 
-        const Model = await User;
-        const user = await Model.customFindOne({ email });
+        const { User } = await dynamicModels();
+        const user = await User.customFindOne({ email });
 
         if (!user) {
             res.status(401);

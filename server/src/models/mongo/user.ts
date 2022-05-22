@@ -1,33 +1,35 @@
 import { Schema, model } from "mongoose";
 
-const UserSchema = new Schema({
-    name: String,
-    email: String,
-    password: String,
-    avatar: String
-});
-
-const customFindOne = async (objectToFind: Object) => {
-    return await User.findOne(objectToFind).exec();
-};
-
-const customCreate = async (objectToCreate: Object) => {
-    const user = new User(objectToCreate);
-    await user.save();
-    return user;
-};
-
-const customUpdate = async (dataToUpdate: Object, objectToFind: Object) => {
-    return await User.updateOne(objectToFind, dataToUpdate);
-};
-
-UserSchema.methods.customFindOne = customFindOne;
-UserSchema.methods.customCreate = customCreate;
-UserSchema.methods.customUpdate = customUpdate;
-
-
 console.log("Using model user with mongodb");
 
-const User = model('User', UserSchema);
+export default class User {
 
-export default User;
+    public static schema = new Schema({
+        name: String,
+        email: String,
+        password: String,
+        avatar: String
+    });
+
+    public static Model = model('User', User.schema);
+
+
+    constructor(ObjectToCreate: Object) {
+        User.customCreate(ObjectToCreate);
+    }
+
+    public static async customFindOne(objectToFind: Object) {
+        return await User.Model.findOne(objectToFind).exec();
+    };
+
+    public static async customCreate(objectToCreate: Object) {
+        const user = new User.Model(objectToCreate);
+        await user.save();
+        return user;
+    };
+
+    public static async customUpdate(dataToUpdate: Object, objectToFind: Object) {
+        return await User.Model.updateOne(objectToFind, dataToUpdate);
+    };
+
+};
