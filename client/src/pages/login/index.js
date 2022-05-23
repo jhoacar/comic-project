@@ -1,28 +1,42 @@
-// eslint-disable-next-line
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Layout from '../../components/layouts'
 import Card from '../../components/cards';
 import { Form, Image, Button } from 'react-bootstrap';
 import { handleLogin } from '../../services/authorization';
+import { Navigate } from 'react-router-dom';
+import { AppContext } from '../../store';
 
 function Login() {
 
+    const { globalContext, setGlobalContext } = useContext(AppContext);
+    const { isLoggedIn } = globalContext;
+    const [notLoginMessage, setNotLoginMessage] = useState("");
+
     const handleOnSubmitForm = async function (event) {
         event.preventDefault();
-        const {email,password} = event.target.elements;
+        const { email, password } = event.target.elements;
 
         const userObject = {
             email: email.value,
             password: password.value
         }
         const loginObject = await handleLogin(userObject);
-        
-        console.log(loginObject);
+
+        if (loginObject.body)
+            setGlobalContext({ ...globalContext, isLoggedIn: true });
+        else if (loginObject.error)
+            setNotLoginMessage("Ha ocurrido un error en el login");
+        else if (loginObject.message)
+            setNotLoginMessage(loginObject.message);
+        else
+            setNotLoginMessage("");
+
     }
 
     return (
         <Layout>
             <Card>
+                {isLoggedIn && <Navigate to="../dashboard"></Navigate>}
                 <Form onSubmit={handleOnSubmitForm}>
                     <Form.Group className="mb-3 text-center">
                         <Image src={`icon.png`} width="100px" height="100px"></Image>
@@ -40,6 +54,13 @@ function Login() {
                             Submit
                         </Button>
                     </Form.Group>
+                    {notLoginMessage.length > 0 &&
+                        <Form.Group>
+                            <Form.Text className='text-danger'>
+                                {notLoginMessage}
+                            </Form.Text>
+                        </Form.Group>
+                    }
                 </Form>
             </Card>
         </Layout>

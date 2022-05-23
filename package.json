@@ -9,13 +9,14 @@
   "scripts": {
     "start": "npm run production-client && npm run production-server",
     "production-client": "env-cmd -f client.env npm run build-client",
-    "production-server": "env-cmd -f server.env npm run start-server",
-    "start-server": "npm start --prefix server",
-    "start-client": "npm start --prefix client",
+    "production-server": "npm run build-server && env-cmd -f server.env npm run start-server",
+    "start-server": "env-cmd -f server.env npm start --prefix server",
+    "start-client": "env-cmd -f client.env npm start --prefix client",
     "build-server": "npm run build --prefix server",
     "build-client": "npm run build --prefix client",
     "dev-server": "env-cmd -f server.env npm run dev --prefix server",
-    "watch-server": "npm run watch --prefix server"
+    "watch-server": "npm run watch --prefix server",
+    "install-all": "npm install && npm install --prefix ./client && npm install --prefix ./server"
   },
   "keywords": [],
   "author": "",

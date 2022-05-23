@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Layout from '../../components/layouts';
 import Card from '../../components/cards';
 import { Button, Form, Image } from 'react-bootstrap';
 import { getAllAvatars } from '../../services/api';
 import { handleRegister } from '../../services/authorization';
+import { AppContext } from '../../store';
+import { Navigate } from 'react-router-dom';
 
 function Register() {
 
@@ -14,12 +16,16 @@ function Register() {
         value: 'default',
     };
 
+    const { globalContext } = useContext(AppContext);
+    const { isLoggedIn } = globalContext;
     const [avatars, setAvatars] = useState([defaultAvatar]);
 
     const [showImage, setShowImage] = useState(false);
     const [avatarImage, setAvatarImage] = useState("");
     const [selectValue, setSelectValue] = useState(defaultName);
     const [hasErrorSelect, setHasErrorSelect] = useState(false);
+    const [notRegisteredMessage, setNotRegisteredMessage] = useState("");
+    const [registeredMessage, setRegisteredMessage] = useState("");
 
     const selectAvatarInput = useRef(null);
     const textImageInput = useRef(null);
@@ -35,6 +41,7 @@ function Register() {
         setSelectValue(nameAvatar);
         setShowImage(true);
         setAvatarImage(avatar.image);
+        setNotRegisteredMessage("");
     }
 
     const handleOnSubmitForm = async function (event) {
@@ -45,23 +52,34 @@ function Register() {
             setTimeout(() => setHasErrorSelect(false), 3000);
             return;
         }
-        const {name,email,password,avatar,image} = event.target.elements;
+        const { name, email, password, avatar, image } = event.target.elements;
         const userObject = {
-            name : name.value,
+            name: name.value,
             email: email.value,
             password: password.value,
             avatar: avatar.value,
             image: image.value,
         }
         const registerObject = await handleRegister(userObject);
-        
-        console.log(registerObject);
 
+        if (registerObject.body) {
+            setRegisteredMessage("Usuario registrado satisfactoriamente");
+            setTimeout(() => { setRegisteredMessage("") }, 3000);
+        }
+        else if (registerObject.error)
+            setNotRegisteredMessage("Ha ocurrido un error en el registro");
+        else if (registerObject.message)
+            setNotRegisteredMessage(registerObject.message);
+        else
+            setNotRegisteredMessage("");
+
+        console.log(registerObject);
     }
 
     return (
         <Layout>
             <Card>
+                {isLoggedIn && <Navigate to="../dashboard"></Navigate>}
                 <Form onSubmit={handleOnSubmitForm}>
                     <Form.Group className="mb-3 text-center">
                         <Image src={`icon.png`} width="100px" height="100px"></Image>
@@ -93,6 +111,10 @@ function Register() {
                             <Form.Text className='text-danger'>
                                 Please select your avatar before to send this form
                             </Form.Text>}
+                        {notRegisteredMessage.length > 0 &&
+                            <Form.Text className='text-danger'>
+                                {notRegisteredMessage}
+                            </Form.Text>}
                     </Form.Group>
                     {
                         showImage &&
@@ -106,6 +128,13 @@ function Register() {
                             Submit
                         </Button>
                     </Form.Group>
+                    {registeredMessage.length > 0 &&
+                        <Form.Group>
+                            <Form.Text className='text-success'>
+                                {registeredMessage}
+                            </Form.Text>
+                        </Form.Group>
+                    }
                 </Form>
             </Card>
         </Layout>
