@@ -1,6 +1,6 @@
 import configuration from '../config/database';
 
-const { connection: engine, MYSQL, MONGO } = configuration;
+const { connection: engine, SQL, MONGO } = configuration;
 
 export interface UserSchema{
     name: string,
@@ -14,14 +14,14 @@ export interface UserSchema{
 let user: string = "";
 
 switch (engine) {
-    case MYSQL:
-        user = './mysql/user';
+    case SQL:
+        user = './sql/user';
         break;
     case MONGO:
         user = './mongo/user';
         break;
     default:
-        throw `Must be specified DB_CONNECTION environment variable, and can be: ${MYSQL}, ${MONGO}, not ${engine}`;
+        throw `Must be specified DB_CONNECTION environment variable, and can be: ${SQL}, ${MONGO}, not ${engine}`;
 }
 
 export default async function () {

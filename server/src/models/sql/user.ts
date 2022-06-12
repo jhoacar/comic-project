@@ -1,8 +1,8 @@
 import DataTypes from "sequelize";
 import { UserSchema } from "..";
-import sequelize from "../../config/mysql/connection";
+import sequelize from "../../config/sql/connection";
 
-console.log("Using model user with mysql");
+console.log("Using model user with sql");
 
 export default class User {
 
