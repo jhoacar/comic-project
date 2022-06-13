@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build",
     "dev": "nodemon build",
-    "tsc": "./node_modules/typescript/bin/tsc",
+    "tsc": "./server/node_modules/typescript/bin/tsc",
     "build": "npm run tsc",
     "watch": "npx tsc -w"
   },
