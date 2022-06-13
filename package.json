@@ -7,18 +7,16 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "npm run install-all && npm run start-production",
-    "start-production": "npm run production-build && npm run start --prefix=server",
-    "production-build": "npm run build --prefix=client && npm run build-server",
-    "build": "npm run build-client && npm run build-server",
-    "dev": "concurrently \"npm:dev-*\"",
-    "start-server": "env-cmd -f server.env npm start --prefix server",
-    "build-client": "env-cmd -f client.env npm run build --prefix client",
+    "install-all": "npm ci && cd client && npm ci && cd ../server && npm ci",
+    "start": "npm run start-server",
+    "start-server": "npm start --prefix server",
+    "build": "npm run install-all && npm run build-client && npm run build-server",
+    "build-client": "npm run build --prefix client",
     "build-server": "npm run build --prefix server",
-    "dev-client": "env-cmd -f client.env npm start --prefix client",
-    "dev-server": "env-cmd -f server.env npm run dev --prefix server",
-    "dev-watch-server": "npm run watch --prefix server",
-    "install-all": "npm ci && cd client && npm ci && cd ../server && npm ci"
+    "dev": "concurrently \"npm:dev-*\"",
+    "dev-client": "npm start --prefix client",
+    "dev-server": "npm run dev --prefix server",
+    "dev-watch-server": "npm run watch --prefix server"
   },
   "keywords": [],
   "author": "",
