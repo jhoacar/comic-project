@@ -2,7 +2,7 @@ name: Deployment Heroku
 
 on:
   push:
-    branches: [deploy/herokus]
+    branches: [deploy/heroku]
 
 jobs:
   deploy:
