@@ -1,9 +1,9 @@
 import express from 'express';
 import 'dotenv/config';
 import cors, { CorsOptions } from 'cors';
-import {version} from '../../package.json';
 import api from '../routes/api';
 import web from '../routes/web';
+const packageJSON = require("../../package.json");
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.get("/health", (req, res) => {
 });
 app.get("/version", (req, res) => {
     return res.status(200).json({
-        message: version
+        message: packageJSON.version
     });
 });
 app.use("/api/v1", api);

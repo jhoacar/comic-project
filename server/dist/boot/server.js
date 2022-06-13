@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 require("dotenv/config");
 const cors_1 = __importDefault(require("cors"));
-const package_json_1 = require("../../package.json");
 const api_1 = __importDefault(require("../routes/api"));
 const web_1 = __importDefault(require("../routes/web"));
+const packageJSON = require("../../package.json");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const allowedOrigins = ['http://localhost:3000'];
@@ -23,7 +23,7 @@ app.get("/health", (req, res) => {
 });
 app.get("/version", (req, res) => {
     return res.status(200).json({
-        message: package_json_1.version
+        message: packageJSON.version
     });
 });
 app.use("/api/v1", api_1.default);
