@@ -1,0 +1,14 @@
+name: Say Hello
+on:
+  push:
+    branches:
+      - "deploy/heroku"
+
+jobs:
+  hello_world:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Echo the message
+        run: |
+          eecho "Primer job"
+

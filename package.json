@@ -7,25 +7,25 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "npm run production-client && npm run production-server",
+    "start": "npm run install-all && npm run start-production",
+    "start-production": "npm run production-build && npm run start --prefix=server",
+    "production-build": "npm run build --prefix=client && npm run build-server",
+    "build": "npm run build-client && npm run build-server",
     "dev": "concurrently \"npm:dev-*\"",
-    "production-client": "npm run build-client",
-    "production-server": "npm run build-server && npm run start-server",
     "start-server": "env-cmd -f server.env npm start --prefix server",
     "build-client": "env-cmd -f client.env npm run build --prefix client",
     "build-server": "npm run build --prefix server",
     "dev-client": "env-cmd -f client.env npm start --prefix client",
     "dev-server": "env-cmd -f server.env npm run dev --prefix server",
     "dev-watch-server": "npm run watch --prefix server",
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+    "install-all": "npm ci && cd client && npm ci && cd ../server && npm ci"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "env-cmd": "^10.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "concurrently": "^7.2.1"
   }
 }
