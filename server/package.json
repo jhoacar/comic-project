@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build",
-    "dev": "nodemon build",
-    "tsc": "./server/node_modules/typescript/bin/tsc",
-    "build": "npm run tsc",
+    "start": "node dist",
+    "dev": "nodemon dist",
+    "build": "npx tsc",
     "watch": "npx tsc -w"
   },
   "keywords": [],
