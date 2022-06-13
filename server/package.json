@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build",
     "dev": "nodemon build",
-    "build": "npx tsc",
+    "build": "tsc",
     "watch": "npx tsc -w"
   },
   "keywords": [],
