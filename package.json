@@ -12,7 +12,7 @@
     "start-server": "npm start --prefix server",
     "build": "npm run install-all && npm run build-client && npm run build-server",
     "build-client": "npm run build --prefix client",
-    "build-server": "npm run build --prefix server",
+    "build-server": "./server/node_modules/typescript/bin/tsc",
     "dev": "concurrently \"npm:dev-*\"",
     "dev-client": "npm start --prefix client",
     "dev-server": "npm run dev --prefix server",
