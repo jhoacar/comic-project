@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-18.04
-    environment: deploy/heroku #This is for use secrets.HEROKU_*
+    environment: heroku #This is for use secrets.HEROKU_*
     steps:
       - uses: actions/checkout@v2
         with:
