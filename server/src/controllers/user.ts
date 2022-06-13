@@ -50,3 +50,24 @@ export const getAvatars = async (req: Request, res: Response, next: NextFunction
     }
 }
 
+export const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+
+        const { email } = req.user;
+
+        const { User } = await dynamicModels();
+
+        const user: UserSchema = await User.customFindOne({ email });
+
+        return res.json({
+            message: "Profile information for user",
+            body: user
+        });
+
+    } catch (error) {
+        console.log(error)
+        res.status(500);
+        res.json({ error: error });
+    }
+}

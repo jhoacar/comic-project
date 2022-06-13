@@ -4,19 +4,29 @@ import { getPayloadData } from "../helpers/handleJWT";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
-    const { token } = req.body;
+    const token: string = req.query.token as string;
 
     if (!token) {
         res.status(403);
         return res.json({ error: "Token is required" });
     }
 
-    const userData = getPayloadData(token);
+    try {
+        const userData = getPayloadData(token);
 
-    if (!userData) {
-        res.status(403);
-        return res.json({ error: "Token is invalid" });
+        if (!userData) {
+            res.status(403);
+            return res.json({ error: "Token is invalid" });
+        }
+
+        req.user = userData;
+
+        return next();
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(400);
+        return res.json({ error: "Token is incorrect" });
     }
-
-    return next();
 }
