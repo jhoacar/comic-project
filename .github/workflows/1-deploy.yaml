@@ -7,19 +7,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-18.04
+    environment: deploy/heroku #This is for use secrets.HEROKU_*
     steps:
-      - name: Echo the email
-        run: |
-          echo ${{secrets.HEROKU_EMAIL}}
-      # - uses: actions/checkout@v2
-      #   with:
-      #     fetch-depth: 0
-      # - name: Deploy to Heroku
-      #   if: ${{ github.event_name == 'push' }}
-      #   uses: akhileshns/heroku-deploy@v3.12.12
-      #   with:
-      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-      #     heroku_app_name: ${{secrets.HEROKU_APP}}
-      #     heroku_email: ${{secrets.HEROKU_EMAIL}}
-      #     healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/health"
-      #     rollbackonhealthcheckfailed: true
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Deploy to Heroku
+        if: ${{ github.event_name == 'push' }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/health"
+          rollbackonhealthcheckfailed: true
