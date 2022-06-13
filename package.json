@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "install-all": "npm ci && cd client && npm ci && cd ../server && npm ci",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install && cd ..",
     "start": "npm run start-server",
     "start-server": "npm start --prefix server",
     "build": "npm run install-all && npm run build-client && npm run build-server",

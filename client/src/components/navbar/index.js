@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Button, Navbar } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/auth';
 import { setToken } from '../../services/authorization';
 

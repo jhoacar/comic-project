@@ -9,7 +9,7 @@ export const handleRegister = async function (userObject) {
     const { name, email, password, avatar, image } = userObject;
 
     if (!name || !email || !password || !avatar || !image)
-        throw 'Missing required fields';
+        throw new Error('Missing required fields');
 
     const responseAvatars = await axios.get(allAvatarsUrl);
     const allAvatars = responseAvatars.data;
@@ -24,7 +24,7 @@ export const handleRegister = async function (userObject) {
     }
 
     if (isAvatarInSystem)
-        throw "Cannot register beacuse avatar is already in system";
+        throw new Error("Cannot register beacuse avatar is already in system");
 
     const payload = { name, email, password, avatar, image };
 
@@ -34,7 +34,7 @@ export const handleRegister = async function (userObject) {
     console.log("Data in register: ", data);
 
     if (data.error)
-        throw data.error;
+        throw new Error(data.error);
 
     return data.message;
 }
@@ -44,7 +44,7 @@ export const handleLogin = async function (userObject) {
     const { email, password } = userObject;
 
     if (!email || !password)
-        throw 'Missing required fields';
+        throw new Error('Missing required fields');
 
     const payload = { email, password }
 
@@ -52,10 +52,10 @@ export const handleLogin = async function (userObject) {
     const data = response.data;
 
     if (data.error)
-        throw data.error;
+        throw new Error(data.error);
 
     if (!data.body)
-        throw "Not body section in server";
+        throw new Error("Not body section in server");
 
     console.log(data);
 

@@ -11,10 +11,10 @@ export const getProfile = async function () {
     const data = response.data;
 
     if (data.error)
-        throw data.error;
+        throw new Error(data.error);
 
     if (!data.body)
-        throw "Not body section in server";
+        throw new Error("Not body section in server");
 
     return data.body;
 }
