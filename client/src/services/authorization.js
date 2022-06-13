@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const serverUrl = process.env.REACT_APP_SERVER_URL || '/api/v1';
 const authUrl = `${serverUrl}/auth`;
 const allAvatarsUrl = `${serverUrl}/user/avatar`;
@@ -7,94 +9,69 @@ export const handleRegister = async function (userObject) {
     const { name, email, password, avatar, image } = userObject;
 
     if (!name || !email || !password || !avatar || !image)
-        return;
+        throw 'Missing required fields';
 
-    try {
+    const responseAvatars = await axios.get(allAvatarsUrl);
+    const allAvatars = responseAvatars.data;
 
-        const responseAvatars = await fetch(allAvatarsUrl);
-        const jsonAvatars = await responseAvatars.json();
-        const allAvatars = jsonAvatars.body;
+    let isAvatarInSystem = false;
 
-        let isAvatarInSystem = false;
+    console.log("Avatars in system: ", allAvatars);
 
-        console.log("Avatars in system: ", allAvatars);
-
-        if (allAvatars.length > 0) {
-            const matched = allAvatars.find(avatarName => avatar === avatarName);
-            isAvatarInSystem = matched?.length;
-        }
-
-
-        if (isAvatarInSystem)
-            return { message: "No se puede registrar porque ya hay alguien con este avatar" };
-
-        const payload = { name, email, password, avatar, image };
-
-        const response = await fetch(authUrl + "/register", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        console.log("Data in register: ", data);
-
-        if (data.error)
-            return { error: data.error }
-
-        return { body: data.body }
-
-    } catch (throwedError) {
-
-        console.log("Error in register: ", throwedError);
-        const error = 'Error in Server';
-        return { error };
+    if (allAvatars.length > 0) {
+        const matched = allAvatars.find(avatarName => avatar === avatarName);
+        isAvatarInSystem = matched?.length;
     }
+
+    if (isAvatarInSystem)
+        throw "Cannot register beacuse avatar is already in system";
+
+    const payload = { name, email, password, avatar, image };
+
+    const response = await axios.post(authUrl + "/register", payload);
+    const data = response.data;
+
+    console.log("Data in register: ", data);
+
+    if (data.error)
+        throw data.error;
+
+    return data.message;
 }
 
 export const handleLogin = async function (userObject) {
+
     const { email, password } = userObject;
 
     if (!email || !password)
-        return;
-    try {
-        const payload = { email, password }
+        throw 'Missing required fields';
 
-        const response = await fetch(authUrl + "/login", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
+    const payload = { email, password }
 
-        const data = await response.json();
-        console.log("Data in Login: ", data);
+    const response = await axios.post(authUrl + "/login", payload);
+    const data = response.data;
 
-        if (data.error)
-            return { error: data.error }
+    if (data.error)
+        throw data.error;
 
+    if (!data.body)
+        throw "Not body section in server";
 
-        localStorage.setItem("loggedIn", 1);
+    console.log(data);
 
-        return { body: data.body }
+    setToken(data.body.token);
 
-    } catch (throwedError) {
-        console.log("Error in login", throwedError);
-        const error = 'Error in Server';
-        return { error };
-    }
+    return data.message;
 }
 
-export const handleLogout = function () {
-    localStorage.setItem("loggedIn", 0);
+export const getToken = function () {
+    return localStorage.getItem("token");
+}
+
+export const setToken = function (token) {
+    localStorage.setItem("token", token);
 }
 
 export const isLoggedIn = function () {
-    return parseInt(localStorage.getItem("loggedIn")) === 1;
+    return localStorage.getItem("token")?.length > 0;
 }

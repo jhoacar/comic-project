@@ -1,19 +1,18 @@
 import React, { useContext } from 'react'
 import { Button, Navbar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { handleLogout as logout } from '../../services/authorization';
-import { AppContext } from '../../store';
+import { AuthContext } from '../../context/auth';
+import { setToken } from '../../services/authorization';
 
 function NavBar() {
 
-    const navigate = useNavigate();
-    const {globalContext, setGlobalContext} = useContext(AppContext);
-    const { isLoggedIn } = globalContext;
+
+    const [isLoggedIn, setIsLoggedIn] = useContext(AuthContext);
+
 
     const handleLogout = () => {
-        logout();
-        setGlobalContext({ ...globalContext, isLoggedIn: false });
-        navigate('../');
+        setToken("");
+        setIsLoggedIn(false);
     }
 
     return (

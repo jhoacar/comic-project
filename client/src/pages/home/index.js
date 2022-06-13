@@ -2,25 +2,25 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '../../components/layouts'
 import Card from '../../components/cards';
-import { AppContext } from '../../store';
+import { AuthContext } from '../../context/auth';
 
 function Home() {
-    const { globalContext } = useContext(AppContext);
-    const { isLoggedIn } = globalContext;
+
+    const [isLoggedIn] = useContext(AuthContext);
 
     return (
         <Layout>
             <Card>
-                <div >
+                <h1>
                     Bienvenidos a la aplicacion para personajes
-                </div>
-                {isLoggedIn && 
+                </h1>
+                {isLoggedIn &&
                     <div className="d-flex flex-column align-items-center justify-content-center gap-3">
-                    Has iniciado sesion
-                    <div className="d-flex align-items-center justify-content-center gap-3">
-                        <Link to={"dashboard"} className="btn btn-primary">Dashboard</Link>
+                        Has iniciado sesion
+                        <div className="d-flex align-items-center justify-content-center gap-3">
+                            <Link to={"dashboard"} className="btn btn-primary">Dashboard</Link>
+                        </div>
                     </div>
-                </div>
                 }
                 {!isLoggedIn &&
                     <div className="d-flex flex-column align-items-center justify-content-center gap-3">

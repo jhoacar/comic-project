@@ -1,21 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image } from 'react-bootstrap';
 import Card from '../../components/cards';
 import Layout from '../../components/layouts';
+import { getProfile } from '../../services/profile';
+import { toast } from 'react-hot-toast';
 
 function Dashboard() {
-    return (
-      <Layout>
-          <Card>
-            {/* <Image src={"https://rickandmortyapi.com/api/character/avatar/11.jpeg"} width="100px" height="100px"></Image> */}
-            <Image src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"} width="100px" height="100px"></Image>
-            {/* <h2>Albert Einstein</h2> */}
-            <h2>Charizard</h2>
-            <h2>Nombre del Usuario</h2>
-            <h2>Correo del Usuario</h2>
-          </Card>
-      </Layout>
-    );
+
+  const [profile, setProfile] = useState({ loading: true });
+
+  useEffect(() => {
+    getProfile()
+      .then(profile => setProfile(profile))
+      .catch(error => {
+        console.log(error);
+        toast.error("Has ocurred an error obtain profile");
+      });
+  }, []);
+
+  return (
+    <Layout>
+      <Card>
+        {
+          profile?.loading &&
+          <h1>Cargando informacion</h1>
+        }
+        {
+          profile?.image?.length > 0 &&
+          <Image src={profile?.image} width="100px" height="100px"></Image>
+        }
+        <h2>{profile?.avatar}</h2>
+        <h2>{profile?.name}</h2>
+        <h2>{profile?.email}</h2>
+      </Card>
+    </Layout>
+  );
 }
 
 export default Dashboard
