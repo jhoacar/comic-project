@@ -28,11 +28,9 @@ jobs:
     runs-on: ubuntu-18.04
     environment: heroku #This is for use secrets.HEROKU_*
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Update Readme
-        run: |
-          echo "https://${{secrets.HEROKU_APP}}.herokuapp.com" > README.md;
-          git add .;
-          git commit -m "Update this repo's README with the page";
-          git push origin deploy/heroku
+      - uses: actions/checkout@v2
+      - uses: gautamkrishnar/blog-post-workflow@master
+        with:
+          comment_tag_name: "STACKOVERFLOW"
+          commit_message: "Updated readme with the latest stackOverflow data"
+          feed_list: "https://stackoverflow.com/feeds/user/4214976"
