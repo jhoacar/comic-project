@@ -31,6 +31,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: gautamkrishnar/blog-post-workflow@master
         with:
-          comment_tag_name: "STACKOVERFLOW"
-          commit_message: "Updated readme with the latest stackOverflow data"
-          feed_list: "https://stackoverflow.com/feeds/user/4214976"
+          comment_tag_name: "PROJECT"
+          commit_message: "Updated readme with the latest link"
+          feed_list: "https://utn-comic-project.herokuapp.com"
