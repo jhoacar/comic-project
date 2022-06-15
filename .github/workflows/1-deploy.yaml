@@ -21,3 +21,15 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/health"
           rollbackonhealthcheckfailed: true
+
+  update-readme-with-page:
+    needs: deploy
+    name: Update this repo's README with the page
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Pull in herokuapp
+        uses: gautamkrishnar/blog-post-workflow@master
+        with:
+          feed_list: "https://${{secrets.HEROKU_APP}}.herokuapp.com"
