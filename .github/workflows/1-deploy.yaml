@@ -26,6 +26,7 @@ jobs:
     needs: deploy
     name: Update this repo's README with the page
     runs-on: ubuntu-18.04
+    environment: heroku #This is for use secrets.HEROKU_*
     steps:
       - name: Checkout
         uses: actions/checkout@v2
