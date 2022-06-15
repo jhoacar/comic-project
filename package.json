@@ -16,8 +16,8 @@
     "build-client": "npm run build --prefix client",
     "build-server": "npm run build --prefix server",
     "dev": "concurrently \"npm:dev-*\"",
-    "dev-client": "npm start --prefix client",
-    "dev-server": "npm run dev --prefix server",
+    "dev-client": "env-cmd -f client.env npm start --prefix client",
+    "dev-server": "env-cmd -f server.env npm run dev --prefix server",
     "dev-watch-server": "npm run watch --prefix server"
   },
   "keywords": [],

@@ -4,8 +4,8 @@
         "src"
     ],
     "watch": [
-        "build"
+        "dist"
     ],
-    "exec": "node build",
+    "exec": "node dist",
     "ext": "js"
 }
