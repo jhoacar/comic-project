@@ -30,6 +30,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Update Readme
         run: |
           echo "https://${{secrets.HEROKU_APP}}.herokuapp.com" > README.md;
           git add .;
