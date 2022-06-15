@@ -1,7 +1,7 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
   <circle cx="250" cy="250" r="50" fill="red" />
   <script type="text/javascript"><![CDATA[
-    alert("xss")
+    alert("xss");
     var KEY = { w:87, a:65, s:83, d:68 };
     var moveSpeed = 5;
     var circle = document.getElementsByTagName("circle")[0];
